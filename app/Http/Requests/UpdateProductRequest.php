@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreateProductRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,11 +28,11 @@ class CreateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'price' => 'required|integer',
-            'category_id' => 'required|exists:App\Models\Category,id',
-            'active' => 'required|boolean',
+            'name' => 'string|max:255',
+            'description' => 'string|max:255',
+            'price' => 'integer',
+            'category_id' => 'exists:App\Models\Category,id',
+            'active' => 'boolean',
         ];
     }
 
