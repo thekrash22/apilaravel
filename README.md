@@ -38,5 +38,20 @@ docker compose up -d
 docker compose exec app bash
 composer install 
 ```
-
+7. Corremos comandos para agrear llave, migraciones y seeder:
+```bash
+php artisan key:generate
+php artisan migrate
+php artisan db:seed --class=UserSeeder
+```
 ya con esto quedaria instalado el proyecto.
+#### Nota: 
+el seeder crea los siguientes usuarios con su contraseña:
+```bash
+user@user.com => password
+customer@customer.com => password
+client@client.com => password
+```
+
+
+Oswaldo Gonzalez.
