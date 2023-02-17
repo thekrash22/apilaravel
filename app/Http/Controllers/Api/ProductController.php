@@ -26,6 +26,19 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         try {
+            $products = $this->productRepository->all($request);
+            return \ResponseHelper::GetSuccesResponse($products, HttpResponseEnum::HTTP_OK);
+        } catch (OutOfBoundsException $e) {
+            return \ResponseHelper::GetErrorResponse(ResponseMessages::NOT_FOUND_ERROR_RESPONSE, $e, HttpResponseEnum::HTTP_NOT_FOUND);
+        } catch (ModelNotFoundException $e) {
+            return \ResponseHelper::GetErrorResponse(ResponseMessages::NOT_FOUND_ERROR_RESPONSE, $e, HttpResponseEnum::HTTP_NOT_FOUND);
+        } catch (Exception $e) {
+            return \ResponseHelper::GetErrorResponse(ResponseMessages::GENERIC_ERROR_MESSAGE, $e, HttpResponseEnum::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    public function all(Request $request)
+    {
+        try {
             $products = $this->productRepository->list($request->merge(['user_id' => Auth::id()]));
             return \ResponseHelper::GetSuccesResponse($products, HttpResponseEnum::HTTP_OK);
         } catch (OutOfBoundsException $e) {
@@ -63,6 +76,16 @@ class ProductController extends Controller
         try {
             $response = $this->productRepository->deleteMyProduct($id);
             return \ResponseHelper::GetSuccesResponse($response, HttpResponseEnum::HTTP_OK);
+        }
+        catch (ModelNotFoundException $e){
+            return \ResponseHelper::GetErrorResponse(ResponseMessages::NOT_FOUND_ERROR_RESPONSE, $e, HttpResponseEnum::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function show($id){
+        try {
+            $product = $this->productRepository->show($id);
+            return \ResponseHelper::GetSuccesResponse($product, HttpResponseEnum::HTTP_OK);
         }
         catch (ModelNotFoundException $e){
             return \ResponseHelper::GetErrorResponse(ResponseMessages::NOT_FOUND_ERROR_RESPONSE, $e, HttpResponseEnum::HTTP_NOT_FOUND);

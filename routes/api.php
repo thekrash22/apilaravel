@@ -31,6 +31,8 @@ Route::prefix('categories')->group( function () {
 
 Route::prefix('products')->group( function () {
     Route::get('/', [\App\Http\Controllers\Api\ProductController::class, 'index']);
+    Route::get('/my-products', [\App\Http\Controllers\Api\ProductController::class, 'all'])->middleware('auth:sanctum');
+    Route::get('/{id}', [\App\Http\Controllers\Api\ProductController::class, 'show'])->middleware('auth:sanctum');
     Route::post('/', [\App\Http\Controllers\Api\ProductController::class, 'store'])->middleware('auth:sanctum');
     Route::put('/{id}', [\App\Http\Controllers\Api\ProductController::class, 'update'])->middleware('auth:sanctum');
     Route::delete('/{id}', [\App\Http\Controllers\Api\ProductController::class, 'delete'])->middleware('auth:sanctum');
